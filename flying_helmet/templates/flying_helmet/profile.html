@@ -1,0 +1,9 @@
+<html>
+    <body>
+        <h3> {{name}} </h3>
+        {% for recipe in recipes %}
+        
+        <p> <a href="../recipe/{{recipe.name}}"> {{recipe.name}} </a> </p>
+        {% endfor %}
+    </body>
+</html> 

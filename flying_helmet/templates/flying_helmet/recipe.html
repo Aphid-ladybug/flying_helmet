@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    </head>
+    <body>
+        
+        <h3 class="title is-3">{{name.capitalize}}</h3>
+        
+        <p class="subtitle is-6"> Posted by: <a href="profile/{{poster_username}}">{{poster_username}}</a></p>
+        
+        <div class="columns">
+            <!-- <div class="size is-3"> -->
+                
+                <div class="column is-narrow"> 
+                    <span class="icon-text">
+                    <span class="icon">
+                      <i class="fas fa-user-friends"></i>
+                    </span>
+                    <span>Portions: {{portions}}</span>
+                  </span> </div>
+                <div class="column is-narrow"> 
+                    <span class="icon-text">
+                        <span class="icon">
+                        <i class="fas fa-clock"></i>
+                        </span>
+                        <span>Prep time: {{prep_time}} minutes</span>
+                     </span>
+                </div>
+                <div class="column is-narrow">
+                    <span class="icon-text">
+                        <span class="icon">
+                        <i class="fas fa-flag"></i>
+                        </span>
+                    <span>Cuisine: {{cuisine.name}}</span>
+                  </span>
+                </div>
+            <!-- </div> -->
+        </div>
+        <h4> Ingredients: </h4>
+        <p>
+            {% for ingredient in ingredients %}
+            
+            <p><input type="checkbox"> {{ingredient.quantity}} {{ingredient.ingredient.name}}</input></p>
+             
+            {% endfor %}
+        </p>
+        <section class="section">
+            <h4 class="title is-5"> Method: </h4>
+            {% for step in method %}
+            <p>
+                <div class="title is-6">Step {{forloop.counter}}</div>
+                <div class="subtitle is-6"s>{{step}}</div>
+            </p>
+            {% endfor %}
+        </section>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+label {
+    color:blueviolet;
+    font-size:x-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-weight: bold;
+    border-style: groove;
+    border-top: 3cm;
+    border-left: 3cm;
+    border-right: 3cm;
+    border-color: aquamarine;
+}
+
+textarea {
+    margin: 20px;
+    padding: 40px;
+}
+
+input {
+    background-color: cornflowerblue;
+    color: aliceblue ;
+}

@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+    <section class="section">
+
+        <div class="title">Find a Recipe </div>
+        <div class="columns">
+            <div class="column is-two-thirds">
+                <form action="{% url 'flying_helmet:search' %}" method="get">
+                    <p>
+                    <div class="mb-3">
+
+                        <textarea class="textarea" placeholder="e.g. rice" name="search" id="search" cols="30"
+                            rows="2"></textarea>
+                    </div>
+                        
+                    </p>
+                    
+                    <button class="button">
+                        <span class="icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <span class="icon-text">Search</span>
+                    </button>
+                </form>
+            </div>
+            <div class="column is-one-third"> 
+                <div class="notification is-info">
+                    Psst! Want to get your own recipe down there? Click the link below 
+                    and fill in the information. If you are not already logged in, log in now.
+
+                    <p><a href="upload" class="button is-info">Add A Recipe</a></p>
+                    
+                  </div>
+            </div>
+        </div>
+    </section>
+    <section class="hero is-link">
+        <div class="hero-body">
+            <p class="title">
+                Recent Recipes
+            </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="columns is-multiline">
+
+            {% for recipe in recipes %}
+            <div class="column is-half">
+                <div class="notification is-info">
+                    <h3 class="title is-4"> <a href="recipe/{{recipe.name}}">{{recipe.name.capitalize}}</a></h3>
+                    <nav class="level">
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-user-friends"></i>
+                                </span>
+                                <span>Portions: {{recipe.portions}}</span>
+                            </span>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-clock"></i>
+                                </span>
+                                <span>Prep time: {{recipe.prep_time}} minutes</span>
+                            </span>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-flag"></i>
+                                </span>
+                                <span>Cuisine: {{recipe.cuisine.name}}</span>
+                            </span>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+           
+            
+                
+            
+        </body>
+
+</html>

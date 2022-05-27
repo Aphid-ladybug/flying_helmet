@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+    <body>
+        <div class="ml-3">
+            <form action="post_recipe" method="post">
+                {% csrf_token%}
+                <h2 class="title"> Add A Recipe  </h2>
+            
+                <div class="columns is-multiline">
+                    <div class="column is-half">
+                        <label for="name" class="has-text-weight-medium">Title</label>
+                        <p class="mt-2">
+                            <input class="input" type="text" name="name">
+                        </p>
+                    </div>
+            
+                    <div class="column is-one-third">
+                        <label for="cuisine" class="has-text-weight-medium">Cuisine</label>
+                        <p class="mt-2"><input class="input" type="text" name="cuisine"></p>
+            
+                    </div>
+                    <div class="column is-2">
+                        <label for="portions" class="has-text-weight-medium">People Served</label>
+                                <p class="mt-2"><input class="input" type="text" name="portions"></p>
+            
+                            </div>
+                            <div class="column is-half">
+                                <label for="ingredients" class="has-text-weight-medium">Ingredients (please separate with returns)</label>
+                                <p class="mt-2"><textarea class="textarea" name="ingredients" cols="25" rows="10"></textarea></p>
+            
+                            </div>
+                    <div class="column is-half">
+                        <label for="method" class="has-text-weight-medium">Method (please separate each step with two returns)</label>
+                        <p class="mt-2"><textarea class="textarea" name="method" cols="40" rows="10"></textarea></p>
+            
+                    </div>
+                    <div class="column is-one-third">
+                        <label for="prep_time" class="has-text-weight-medium">Prep Time (in minutes)</label>
+                        <p class="mt-2"><input class="input" type="text" name="prep_time"></p>
+                    </div>
+                </div>
+                <p>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><div>{{ message }}</div></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </p>
+                <button class="button">
+                    <span class="icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="icon-text">Upload!</span>
+                  </button>
+            </form>
+        </div>
+    </body>
+</html>

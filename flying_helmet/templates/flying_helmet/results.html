@@ -1,0 +1,110 @@
+<html>
+    
+    <!DOCTYPE html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Results</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+
+    <body>
+        <section class="section"> 
+            <h3 class="title is-3">Results</h3>
+        <form action="{% url 'flying_helmet:filter' %}" method="get">
+            <textarea name="cuisine" cols="30" rows="1"></textarea>
+            <input type="submit" value="submit">
+        </form>
+            {% if ingredient_recipes %}
+            <div class="columns is-multiline">
+            
+                {% for recipe in ingredient_recipes %}
+                <div class="column is-half">
+                    <div class="notification is-info">
+                        <h3 class="title is-4">  <a href="recipe/{{recipe.name}}">{{recipe.name.capitalize}}</a></h3>
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-user-friends"></i>
+                                    </span>
+                                    <span>Portions: {{recipe.portions}}</span>
+                                </span>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    <span>Prep time: {{recipe.prep_time}} minutes</span>
+                                </span>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-flag"></i>
+                                    </span>
+                                    <span>Cuisine: {{recipe.cuisine.name}}</span>
+                                </span>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            
+                {% endfor %}
+            </div>
+            {% else %}
+            <p> We have no recipes with this ingredient. Perhaps you could add one?</p>
+                    <p class="mt-2">
+                        <a class="button" href="upload">Upload a Recipe</a>
+                        {% endif %}
+                        <a class="button" href="/flying_helmet/">Search Again</a>
+                    </p>
+        </section>
+        <section class="hero is-link">
+            <div class="hero-body">
+                <p class="title">
+                    Recent Recipes
+                </p>
+            </div>
+        </section>
+        <section class="section"> 
+            <div class="columns is-multiline">
+            
+                {% for recipe in recipes %}
+                <div class="column is-half">
+                    <div class="notification is-info">
+                        <h3 class="title is-4">  <a href="recipe/{{recipe.name}}">{{recipe.name.capitalize}}</a></h3>
+                       <nav class="level">
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-user-friends"></i>
+                                </span>
+                                <span>Portions: {{recipe.portions}}</span>
+                            </span>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-clock"></i>
+                                </span>
+                                <span>Prep time: {{recipe.prep_time}} minutes</span>
+                            </span>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <span class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-flag"></i>
+                                </span>
+                                <span>Cuisine: {{recipe.cuisine.name}}</span>
+                            </span>
+                        </div>
+                    </nav>
+                    </div>
+                </div>
+                {% endfor %}
+            </body>
+</html>
