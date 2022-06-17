@@ -33,8 +33,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'flying_helmet.apps.FlyingHelmetConfig',
-    'croaker.apps.CroakerConfig',
-    'polls.apps.PollsConfig',
+    #'croaker.apps.CroakerConfig',
+    #'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
