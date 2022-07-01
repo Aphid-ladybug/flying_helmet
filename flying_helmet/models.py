@@ -17,6 +17,7 @@ class Recipe(models.Model):
     portions = models.IntegerField(default=1)
     method = models.CharField(max_length=1000)
     prep_time = models.IntegerField(default=10)
+    image = models.ImageField(null=True, blank=True, upload_to='recipe_images/')
     
     def __str__(self):
         return f'{self.name} {self.id}' 

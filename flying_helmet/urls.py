@@ -14,5 +14,5 @@ urlpatterns = [
     path('post_recipe', views.post_recipe, name='post_recipe'),
     path('logout', views.logout_view, name='logout'),
     path('search', views.search, name='search'),
-    path('filter', views.filter, name='filter'),
+    #path('filter', views.filter, name='filter'),
 ]

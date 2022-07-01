@@ -5,7 +5,7 @@
     </head>
     <body>
         <div class="ml-3">
-            <form action="post_recipe" method="post">
+            <form action="post_recipe" method="post" enctype="multipart/form-data">
                 {% csrf_token%}
                 <h2 class="title"> Add A Recipe  </h2>
             
@@ -41,6 +41,7 @@
                         <label for="prep_time" class="has-text-weight-medium">Prep Time (in minutes)</label>
                         <p class="mt-2"><input class="input" type="text" name="prep_time"></p>
                     </div>
+                <input class="input" type="file" name="recipe_image" accept="image/*">
                 </div>
                 <p>
                     {% if messages %}

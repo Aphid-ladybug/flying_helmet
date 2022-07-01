@@ -6,17 +6,79 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Results</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     </head>
 
     <body>
+ 
         <section class="section"> 
             <h3 class="title is-3">Results</h3>
-        <form action="{% url 'flying_helmet:filter' %}" method="get">
-            <textarea name="cuisine" cols="30" rows="1"></textarea>
-            <input type="submit" value="submit">
-        </form>
+       
+           {% if cuisines|length > 1 %}
+           
+            <div class="dropdown mb-3">
+                <div class="dropdown-trigger">
+                
+                    <button class="button"
+                    onclick="javascript:document.querySelector('.dropdown').classList.toggle('is-active')" 
+
+aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Cuisines</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                    </button>
+            
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                     {% for cuisine in cuisines %}
+                     <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&cuisine={{cuisine}}">{{cuisine}}</a>
+                     
+                     {% endfor %}
+                    
+                  </div>
+                </div>
+              </div>
+         {% endif %}
+
+         <br>
+           
+            <div class="dropdown mb-3" id="dropdown_prep">
+                <div class="dropdown-trigger">
+                
+                    <button class="button"
+                    onclick="javascript:document.querySelector('#dropdown_prep').classList.toggle('is-active')" 
+
+aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Time it takes</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                    </button>
+            
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                     
+                        <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&prep_time=15">15 minutes or less</a>
+                     
+                        <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&prep_time=30">30 minutes or less</a>
+                     
+                        <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&prep_time=45">45 minutes or less</a>
+        
+                        <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&prep_time=60">An hour or less</a> 
+                     
+                        <a class="dropdown-item" href="{{request.path}}?{{request.META.QUERY_STRING}}&prep_time=120">2 hours or less</a>
+                     
+                  </div>
+                </div>
+              </div>
+
+       
+        <br> 
+            
             {% if ingredient_recipes %}
             <div class="columns is-multiline">
             

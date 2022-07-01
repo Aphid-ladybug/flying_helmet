@@ -71,6 +71,7 @@ def profile(request, poster_username):
 
 def home(request):
     recipes = Recipe.objects.order_by('id')
+    
     context = {
         'recipes': recipes.reverse()[:10]
     }
@@ -97,12 +98,23 @@ def post_recipe(request):
     portions = request.POST['portions']
     method = request.POST['method']
     prep_time = request.POST['prep_time']
-    recipe = Recipe(name=name, cuisine=cuisine, portions=portions, method=method, prep_time=prep_time, poster_username=poster_username)
+    print(request.FILES)
+    try:
+        image_file = request.FILES['recipe_image']
+        print(image_file)
+    except:
+        print('no file received')
+        image_file = None
+
+    recipe = Recipe(name=name, cuisine=cuisine, portions=portions, method=method, prep_time=prep_time, poster_username=poster_username, image=image_file)
     recipe.save()
     ingredients = request.POST['ingredients']
     ingredient_set = ingredients.split('\r\n')
-    
-    for ingredient in ingredient_set:
+    print('ilist after engredients split')
+    print(ingredient_set)
+    new_ingredient_set = [ing for ing in ingredient_set if ing and ing[0] and ing[0].strip()]
+    print(new_ingredient_set)
+    for ingredient in new_ingredient_set:
         ingredient_quantity = ingredient.split(':')
         print(ingredient_quantity)
         try:
@@ -115,8 +127,8 @@ def post_recipe(request):
             
             new_ingredient = Ingredient(name=ingredient_name)   
             new_ingredient.save() 
-            quantity = Ingredient_quantities(recipe=recipe, ingredient=new_ingredient, quantity=ingredient_quantity[0].strip().lower())
-            quantity.save()
+        quantity = Ingredient_quantities(recipe=recipe, ingredient=new_ingredient, quantity=ingredient_quantity[0].strip().lower())
+        quantity.save()
     messages.success(request, 'Recipe successfully added!')
     return HttpResponseRedirect(reverse('flying_helmet:upload'))
 
@@ -134,18 +146,30 @@ def search(request):
     ingredients = []
     for term in new_terms:
         ingredients += list(Ingredient.objects.filter(name__contains=term.strip()))
-        
-
     print(f'Ingredients: {ingredients}')
     recipes = Recipe.objects.filter(ingredient__in = ingredients).distinct()
     print('In rank:', recipes)
     new_recipes = filters(request, recipes)
+    print('New Recipes after filters: ', new_recipes)
     order = rank(ingredients, new_recipes)
+    recipe_cook_times = remove_duplicates([recipe.prep_time for recipe in new_recipes])
+    recipe_cuisines = remove_duplicates([recipe.cuisine.name for recipe in new_recipes])
     
+    print(request.path)
     context = {'ingredient_recipes': order, 
-        'recipes': Recipe.objects.order_by('id')[:10]}
+        'recipes': Recipe.objects.order_by('id')[:10],
+        'cuisines': recipe_cuisines,
+        'cook_times': recipe_cook_times
+        }
     
     return render(request, 'flying_helmet/results.html', context)
+
+def remove_duplicates(list1):
+    list2 = []
+    for item in list1:
+        if item not in list2:
+            list2.append(item)
+    return list2
 
 def rank(ingredients, recipes):
     # where ingredients is in (list of ingredients)s
@@ -165,14 +189,26 @@ def rank(ingredients, recipes):
 def filters(request, recipes):
     cuisine = request.GET.get('cuisine', '')
     if not cuisine:
-        return recipes
+        print('Cuisine filter not applied')
+       
 
-    new_list = recipes.filter(cuisine__name=cuisine)
-    return new_list
+    else:
+        return recipes.filter(cuisine__name=cuisine)
+    cook_time = request.GET.get('prep_time', '')
+    if not cook_time:
+        print('No cook_time filter applied')
+        
+    else:
+        print(cook_time, type(cook_time))
+        prep_times = recipes.filter(prep_time__lte = int(cook_time))
+        return prep_times
+    
+    return recipes
 
 def filter(request):
     previous_url = request.META['HTTP_REFERER']
     cuisine = request.GET['cuisine']
+    prep_time = request.GET['prep_time']
     
     url = previous_url + '&cuisine=' + cuisine
     print('In filter')
